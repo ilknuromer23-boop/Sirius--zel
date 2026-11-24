@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sirius'a Mavi Çiçekler</title>
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;overflow:hidden;background:radial-gradient(ellipse at 50% 65%,#1c3260,#091329 55%,#02050f);color:white;font-family:Georgia,serif;display:flex;justify-content:center;align-items:center}
+#sky{position:fixed;inset:0;pointer-events:none}.star{position:absolute;width:2px;height:2px;background:#fff;border-radius:50%;animation:tw 2s infinite alternate}@keyframes tw{to{opacity:.15;transform:scale(.5)}}
+.moon{position:absolute;right:10%;top:9%;width:44px;height:44px;border-radius:50%;background:#fff3c9;box-shadow:0 0 25px #fff4b0}.moon:after{content:"";position:absolute;left:13px;top:-5px;width:43px;height:43px;background:#091329;border-radius:50%}
+h1{position:absolute;top:7%;margin:0;color:#b7c9ff;font-size:clamp(26px,6vw,42px);font-style:italic;text-shadow:0 0 15px #809fff}
+.stage{position:relative;width:100vw;height:100vh;display:flex;justify-content:center;align-items:center}
+#hint{position:absolute;top:22%;font:12px Arial;letter-spacing:3px;color:#d7e1ff}
+#heart{position:absolute;top:29%;border:0;background:none;color:#83baff;font-size:86px;filter:drop-shadow(0 0 16px #77adff);cursor:pointer;animation:pulse 1.2s infinite}
+@keyframes pulse{50%{transform:scale(1.13)}}
+#bouquet{position:absolute;bottom:8%;left:50%;width:310px;height:390px;transform:translate(-50%,35px) scale(.75);opacity:0;transition:opacity .8s,transform 1s;pointer-events:none}
+#bouquet.visible{opacity:1;transform:translate(-50%,0) scale(1)}
+.stem{position:absolute;bottom:38px;left:50%;width:5px;background:linear-gradient(#65b987,#236849);border-radius:8px;transform-origin:bottom}
+.leaf{position:absolute;width:57px;height:24px;background:linear-gradient(90deg,#226347,#70bd86);border-radius:100% 0 100% 0}
+.flower{position:absolute;width:78px;height:78px;transform:translate(-50%,-50%) scale(0);animation:flowerIn .7s forwards;filter:drop-shadow(0 0 9px #a9c5ff)}
+@keyframes flowerIn{to{transform:translate(-50%,-50%) scale(1)}}
+.petal{position:absolute;left:29px;top:1px;width:20px;height:38px;border-radius:60% 60% 45% 45%;transform-origin:10px 38px;background:linear-gradient(#f1f3ff,#9db7ff 70%,#7e8fe2)}
+.center{position:absolute;left:34px;top:32px;width:11px;height:11px;border-radius:50%;background:#ffe7a2;box-shadow:0 0 8px #fff}
+.wrap{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:145px;height:100px;background:linear-gradient(100deg,#43328d,#a394ed,#4a388e);clip-path:polygon(15% 0,85% 0,100% 100%,0 100%);border-radius:8px}
+#envelope{position:absolute;bottom:17%;left:50%;transform:translate(-50%,20px) scale(.8);width:125px;height:86px;border:0;background:#f5b5d7;opacity:0;pointer-events:none;transition:.8s;cursor:pointer;box-shadow:0 8px 24px #0008;z-index:3}
+#envelope.visible{opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1)}
+#envelope:before{content:"";position:absolute;inset:0;background:#ffd2e7;clip-path:polygon(0 0,50% 58%,100% 0)}#envelope:after{content:"♥";position:absolute;top:28px;left:0;right:0;color:#d56da7;font-size:22px}
+#letter{position:fixed;inset:0;z-index:5;background:#020614df;display:grid;place-items:center;padding:20px;opacity:0;pointer-events:none;transition:.35s}#letter.open{opacity:1;pointer-events:auto}
+.paper{max-width:420px;width:100%;padding:32px 25px;background:#fff7fc;color:#51446e;text-align:center;border-radius:9px;box-shadow:0 18px 60px #0009}.paper h2{font-weight:normal;color:#7189ce}.paper p{font-size:17px;line-height:1.75}.paper button{border:0;border-radius:20px;padding:9px 22px;background:#8299d8;color:white}
+</style></head>
+<body><div id="sky"><div class="moon"></div></div><h1>Flowers For You</h1>
+<div class="stage"><div id="hint">TAP THE HEART</div><button id="heart">♥</button><div id="bouquet"><div class="wrap"></div></div><button id="envelope" aria-label="Hediye kartını aç"></button></div>
+<div id="letter"><div class="paper"><h2>Sirius'a 💙</h2><p>Gökyüzünün en parlak yıldızı gibi, sen de güzelliklerin arasında hep özel kal. Bu mavi eflatun çiçekler, yıldızların sessiz güzelliğini ve sana gönderilen güzel dilekleri taşıyor. Her baktığında, gökyüzünün bir yerinde senin için parlayan bir yıldız olduğunu hatırla. Bu küçük hediye sana kocaman mutluluklar getirsin.</p><button id="close">Kapat</button></div></div>
+<script>
+(function(){
+ const sky=document.getElementById('sky'), bouquet=document.getElementById('bouquet');
+ for(let i=0;i<100;i++){const s=document.createElement('i');s.className='star';s.style.left=Math.random()*100+'%';s.style.top=Math.random()*100+'%';s.style.animationDelay=Math.random()*2+'s';s.style.opacity=.3+Math.random()*.7;sky.appendChild(s)}
+ const flowers=[[-105,100],[-55,65],[0,42],[55,65],[105,100],[-80,155],[-28,130],[28,130],[80,155],[-43,205],[43,205]];
+ flowers.forEach((pos,i)=>{
+   const stem=document.createElement('i');stem.className='stem';stem.style.height=(150+(i%3)*18)+'px';stem.style.transform='rotate('+((pos[0]/105)*22)+'deg)';bouquet.appendChild(stem);
+   const f=document.createElement('div');f.className='flower';f.style.left='calc(50% + '+pos[0]+'px)';f.style.top=pos[1]+'px';f.style.animationDelay=(i*.09)+'s';
+   for(let j=0;j<6;j++){const p=document.createElement('i');p.className='petal';p.style.transform='rotate('+(j*60)+'deg)';f.appendChild(p)}
+   const c=document.createElement('i');c.className='center';f.appendChild(c);bouquet.appendChild(f);
+ });
+ const heart=document.getElementById('heart'),hint=document.getElementById('hint'),env=document.getElementById('envelope');
+ heart.addEventListener('click',function(){heart.style.display='none';hint.style.display='none';bouquet.classList.add('visible');setTimeout(()=>env.classList.add('visible'),1200)});
+ env.addEventListener('click',()=>document.getElementById('letter').classList.add('open'));
+ document.getElementById('close').addEventListener('click',()=>document.getElementById('letter').classList.remove('open'));
+})();
+</script></body></html>
